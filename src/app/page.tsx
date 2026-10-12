@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   FileText,
   Sparkles,
@@ -80,10 +81,12 @@ export default function HomePage() {
               <span className="text-slate-400">|</span>
               <span className="text-slate-500">Fase E / Fisika</span>
             </div>
-            <Button variant="outline" size="sm" className="gap-2">
-              <Settings className="w-4 h-4" />
-              <span>Profil Sekolah</span>
-            </Button>
+            <Link href="/profil-sekolah">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Settings className="w-4 h-4" />
+                <span>Profil Sekolah</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
