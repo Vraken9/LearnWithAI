@@ -1,0 +1,327 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  LayoutDashboard,
+  FileCheck2,
+  FileText,
+  CalendarDays,
+  Presentation,
+  Settings,
+  LogOut,
+  HelpCircle,
+  School,
+  User,
+  Menu,
+  X,
+  ChevronRight,
+  ShieldCheck,
+  Sparkles,
+  BookOpen,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { SchoolProfile, TeacherProfile } from "@/types";
+
+interface MenuItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  id: string;
+  desc?: string;
+}
+
+interface MenuSection {
+  label: string;
+  badge?: string;
+  items: MenuItem[];
+}
+
+interface DashboardShellProps {
+  children: React.ReactNode;
+  activeItem?: string;
+}
+
+export function DashboardShell({ children, activeItem }: DashboardShellProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Profil Guru & Sekolah dari localStorage
+  const [school, setSchool] = useState<Partial<SchoolProfile>>({
+    school_name: "SMA NEGERI 1 PURWANTORO",
+  });
+  const [teacher, setTeacher] = useState<Partial<TeacherProfile>>({
+    teacher_name: "Arfian Cahya, S.Pd.",
+    teacher_nip: "19880412 201402 1 002",
+  });
+
+  useEffect(() => {
+    try {
+      const savedSchool = localStorage.getItem("guru_school_profile");
+      const savedTeacher = localStorage.getItem("guru_teacher_profile");
+      if (savedSchool) setSchool(JSON.parse(savedSchool));
+      if (savedTeacher) setTeacher(JSON.parse(savedTeacher));
+    } catch {
+      // Abaikan di server
+    }
+  }, []);
+
+  function handleLogout() {
+    try {
+      localStorage.removeItem("guru_auth_token");
+    } catch {
+      // ignore
+    }
+    router.push("/");
+  }
+
+  const menuSections: MenuSection[] = [
+    {
+      label: "UTAMA",
+      items: [
+        {
+          name: "Dashboard",
+          href: "/dashboard",
+          icon: LayoutDashboard,
+          id: "dashboard",
+        },
+      ],
+    },
+    {
+      label: "PERANGKAT AJAR",
+      badge: "HOT",
+      items: [
+        {
+          name: "Soal Generator",
+          href: "/soal-generator",
+          icon: FileCheck2,
+          id: "soal-generator",
+          desc: "AKM, HOTS, & Kisi-Kisi",
+        },
+        {
+          name: "Modul Ajar BSKAP",
+          href: "/modul-ajar",
+          icon: FileText,
+          id: "modul-ajar",
+          desc: "Diferensiasi 3 Pilar",
+        },
+        {
+          name: "ATP, Prota, & Promes",
+          href: "/perangkat-tahunan",
+          icon: CalendarDays,
+          id: "perangkat-tahunan",
+          desc: "Alur & Pekan Efektif",
+        },
+        {
+          name: "Slide Tayang & LKPD",
+          href: "/presentasi",
+          icon: Presentation,
+          id: "presentasi",
+          desc: "PowerPoint Native",
+        },
+      ],
+    },
+    {
+      label: "MASTER DATA",
+      items: [
+        {
+          name: "Profil Sekolah & Kop",
+          href: "/profil-sekolah",
+          icon: School,
+          id: "profil-sekolah",
+          desc: "Kop Surat & NIP Guru",
+        },
+      ],
+    },
+    {
+      label: "SISTEM",
+      items: [
+        {
+          name: "Panduan Bukti PMM",
+          href: "/dashboard#panduan-pmm",
+          icon: BookOpen,
+          id: "panduan-pmm",
+        },
+      ],
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row text-slate-900">
+      {/* Mobile Topbar */}
+      <header className="md:hidden bg-white border-b border-slate-200 px-4 h-14 flex items-center justify-between sticky top-0 z-40">
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-blue-700 text-white flex items-center justify-center font-bold text-sm shadow-xs">
+            G
+          </div>
+          <span className="font-extrabold text-base tracking-tight text-slate-900">
+            GuruHub AI
+          </span>
+        </Link>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Navigation"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </Button>
+      </header>
+
+      {/* Sidebar Desktop & Mobile Drawer */}
+      <aside
+        className={`fixed md:sticky top-0 left-0 z-30 h-screen w-64 bg-white border-r border-slate-200 flex flex-col justify-between transition-transform duration-200 ease-in-out ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          {/* Logo Brand Header */}
+          <div className="h-16 px-6 border-b border-slate-100 flex items-center justify-between">
+            <Link href="/dashboard" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-blue-700 text-white flex items-center justify-center font-black text-base shadow-sm">
+                G
+              </div>
+              <div className="leading-tight">
+                <span className="font-extrabold text-base tracking-tight text-slate-900 block">
+                  GuruHub AI
+                </span>
+                <span className="text-[10px] text-slate-600 block uppercase font-medium tracking-wider">
+                  Kurikulum Merdeka
+                </span>
+              </div>
+            </Link>
+          </div>
+
+          {/* Navigation Menu */}
+          <nav className="p-4 space-y-6 flex-1">
+            {menuSections.map((sec, secIdx) => (
+              <div key={secIdx} className="space-y-1.5">
+                <div className="px-3 flex items-center justify-between">
+                  <span className="text-[10px] font-bold tracking-wider text-slate-600 uppercase">
+                    {sec.label}
+                  </span>
+                  {sec.badge && (
+                    <span className="text-[9px] font-extrabold bg-red-100 text-red-700 px-1.5 py-0.2 rounded">
+                      {sec.badge}
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-0.5">
+                  {sec.items.map((item) => {
+                    const isActive =
+                      activeItem === item.id ||
+                      pathname === item.href ||
+                      (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                    const Icon = item.icon;
+
+                    return (
+                      <Link
+                        key={item.id}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                          isActive
+                            ? "bg-blue-50 text-blue-800 font-bold border-l-4 border-blue-700"
+                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                        }`}
+                      >
+                        <Icon
+                          className={`w-4 h-4 shrink-0 ${
+                            isActive ? "text-blue-700" : "text-slate-600"
+                          }`}
+                        />
+                        <div className="flex-1 truncate">
+                          <span>{item.name}</span>
+                          {item.desc && (
+                            <span className="text-[10px] block text-slate-600 font-normal">
+                              {item.desc}
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        {/* Sidebar Footer: Info Guru & Tombol Logout */}
+        <div className="p-4 border-t border-slate-100 bg-slate-50/70 space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-xs shrink-0">
+              <User className="w-4 h-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-slate-900 truncate">
+                {teacher.teacher_name}
+              </p>
+              <p className="text-[10px] text-slate-600 truncate">
+                {school.school_name}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <Link href="/" className="flex-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full text-[11px] h-7 font-medium text-slate-600 hover:text-slate-900"
+              >
+                Halaman Utama
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="text-[11px] h-7 px-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50"
+              title="Keluar"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        {/* Topbar Desktop */}
+        <header className="hidden md:flex h-16 bg-white border-b border-slate-200 px-8 items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold text-slate-600">Satuan Pendidikan:</span>
+            <Badge variant="outline" className="text-xs font-bold bg-slate-50 text-slate-800">
+              {school.school_name}
+            </Badge>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs text-emerald-800 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>BSKAP 032/H/KR/2024</span>
+            </div>
+
+            <Link href="/profil-sekolah">
+              <Button variant="outline" size="sm" className="text-xs font-semibold gap-1.5 h-8">
+                <Settings className="w-3.5 h-3.5" />
+                <span>Pengaturan Kop</span>
+              </Button>
+            </Link>
+          </div>
+        </header>
+
+        {/* Page Body */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

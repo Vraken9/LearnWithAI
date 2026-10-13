@@ -3,404 +3,638 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  FileText,
-  Sparkles,
-  School,
-  Presentation,
-  CalendarDays,
   FileCheck2,
-  Download,
-  Settings,
-  ChevronRight,
+  FileText,
+  CalendarDays,
+  Presentation,
   ShieldCheck,
-  Award,
+  CheckCircle2,
+  Sparkles,
+  ArrowRight,
+  ChevronDown,
   Layers,
-  GraduationCap,
+  Clock,
+  Award,
+  BookOpen,
+  School,
+  Sliders,
+  Check,
+  HelpCircle,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { OfficialLetterhead } from "@/components/kop-surat/OfficialLetterhead";
-import { EndorsementSheet } from "@/components/kop-surat/EndorsementSheet";
-import { SchoolProfile, TeacherProfile } from "@/types";
+import { Card, CardContent } from "@/components/ui/card";
 
-export default function HomePage() {
-  const [activeTab, setActiveTab] = useState<"overview" | "preview-kop" | "preview-pengesahan">("overview");
+export default function LandingPage() {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [previewTab, setPreviewTab] = useState<"soal" | "kisi" | "modul">("soal");
 
-  // Sample Master Data (Default Kedinasan)
-  const sampleSchool: Partial<SchoolProfile> = {
-    government_agency: "PEMERINTAH PROVINSI JAWA TIMUR",
-    education_office: "DINAS PENDIDIKAN DAN KEBUDAYAAN",
-    school_name: "SMA NEGERI 1 PURWANTORO",
-    npsn: "20311234",
-    accreditation: "A",
-    address: "Jalan Raya Purwantoro - Kismantoro Km. 2, Purwantoro, Wonogiri",
-    postal_code: "57695",
-    phone: "(0273) 415123",
-    email: "info@sman1purwantoro.sch.id",
-    website: "www.sman1purwantoro.sch.id",
-  };
-
-  const sampleTeacher: Partial<TeacherProfile> = {
-    teacher_name: "Arfian Cahya, S.Pd.",
-    teacher_nip: "19880412 201402 1 003",
-    headmaster_name: "Drs. H. Mulyadi, M.Pd.",
-    headmaster_nip: "19670815 199303 1 005",
-    supervisor_name: "Dr. Hj. Sri Wahyuni, M.Pd.",
-    supervisor_nip: "19651120 199002 2 002",
-  };
+  const faqs = [
+    {
+      q: "Apakah seluruh dokumen luaran sesuai regulasi Kurikulum Merdeka terbaru?",
+      a: "Ya. Sistem GuruHub AI dikembangkan mengacu langsung pada Keputusan Kepala BSKAP Kemendikbudristek No. 032/H/KR/2024 tentang Capaian Pembelajaran, Permendikbudristek No. 12 Tahun 2024, serta panduan pembelajaran dan asesmen nasional.",
+    },
+    {
+      q: "Dapatkah berkas yang dihasilkan diedit kembali di Microsoft Word dan PowerPoint?",
+      a: "Tentu saja. Mesin ekspor dokumen kami menghasilkan berkas .DOCX asli dengan margin standar kedinasan 4-3-3-3 cm dan file .PPTX native widescreen 16:9 yang dapat Anda buka, edit, dan cetak langsung di komputer Anda.",
+    },
+    {
+      q: "Bagaimana dokumen GuruHub AI dapat digunakan sebagai bukti dukung di Platform Merdeka Mengajar (PMM)?",
+      a: "Modul Ajar, instrumen asesmen, LKPD, dan media presentasi telah diselaraskan dengan 8 Indikator Observasi Kelas serta Rencana Hasil Kerja (RHK) pada Pengelolaan Kinerja Guru PMM sesuai Perdirjen GTK No. 7607/B.B1/HK.03/2023.",
+    },
+    {
+      q: "Apakah saya harus memasukkan Kop Surat dan profil sekolah berulang kali?",
+      a: "Tidak. Melalui modul Master Profil Sekolah, Anda cukup mengisi data sekolah (nama, NPSN, alamat, logo daerah, logo sekolah) dan data penandatangan satu kali. Seluruh naskah soal, modul ajar, ATP, dan LKPD akan otomatis memuat Kop Surat dan Lembar Pengesahan resmi.",
+    },
+    {
+      q: "Apakah ada biaya langganan untuk mulai menggunakan sistem ini?",
+      a: "GuruHub AI menyediakan akses awal secara gratis bagi seluruh guru di Indonesia untuk menyusun modul ajar, paket soal HOTS, dan perangkat tahunan secara mandiri tanpa batasan komplikasi.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* Top Navbar */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
+      {/* 1. Header / Navbar */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
-              <GraduationCap className="w-6 h-6" />
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-blue-700 text-white flex items-center justify-center font-black text-base shadow-sm">
+              G
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg text-slate-900 tracking-tight">
-                  GuruHub AI
-                </span>
-                <Badge variant="secondary" className="text-[10px] uppercase font-semibold">
-                  BSKAP 2024
-                </Badge>
-              </div>
-              <p className="text-xs text-slate-500">
-                Asisten Perangkat Ajar & Administrasi Kedinasan Guru
-              </p>
+            <div className="leading-tight">
+              <span className="font-extrabold text-base tracking-tight text-slate-900 block">
+                GuruHub AI
+              </span>
+              <span className="text-[10px] text-slate-600 block uppercase font-medium tracking-wider">
+                Kurikulum Merdeka
+              </span>
             </div>
-          </div>
+          </Link>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 border border-slate-200 text-xs text-slate-700">
-              <School className="w-4 h-4 text-blue-700" />
-              <span className="font-medium">SMAN 1 Purwantoro</span>
-              <span className="text-slate-400">|</span>
-              <span className="text-slate-500">Fase E / Fisika</span>
-            </div>
-            <Link href="/profil-sekolah">
-              <Button variant="outline" size="sm" className="gap-2">
-                <Settings className="w-4 h-4" />
-                <span>Profil Sekolah</span>
+          {/* Desktop Nav Links */}
+          <nav className="hidden md:flex items-center space-x-7 text-xs font-semibold text-slate-600">
+            <a href="#fitur" className="hover:text-blue-700 transition-colors">
+              Fitur Unggulan
+            </a>
+            <a href="#cara-kerja" className="hover:text-blue-700 transition-colors">
+              Cara Kerja
+            </a>
+            <a href="#efisiensi" className="hover:text-blue-700 transition-colors">
+              Efisiensi Guru
+            </a>
+            <a href="#regulasi" className="hover:text-blue-700 transition-colors">
+              Standar BSKAP 2024
+            </a>
+            <a href="#faq" className="hover:text-blue-700 transition-colors">
+              FAQ
+            </a>
+          </nav>
+
+          {/* Action CTAs */}
+          <div className="flex items-center space-x-3">
+            <Link href="/login">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-slate-700 hover:text-slate-900">
+                Masuk
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button size="sm" className="bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs h-9 px-4 shadow-xs">
+                Coba Gratis Sekarang
               </Button>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Hero Banner */}
-        <section className="rounded-2xl bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-8 sm:p-10 shadow-md relative overflow-hidden">
-          <div className="max-w-3xl space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-700/60 border border-blue-500/30 text-xs font-medium text-blue-100">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Security by Design & Standar Resmi Kemendikbudristek</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-              Susun Administrasi & Soal Ujian Berkualitas Tanpa Beban Klerikal
-            </h1>
-            <p className="text-blue-100/90 text-sm sm:text-base leading-relaxed">
-              Platform terpadu untuk guru jenjang SD, SMP, dan SMA. Dihasilkan langsung dalam format resmi siap cetak lengkap dengan Kop Surat Kedinasan, Matriks Kisi-Kisi Soal, Taksonomi Bloom, dan Lembar Pengesahan Pengawas.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/soal-generator">
-                <Button variant="accent" size="lg" className="font-semibold shadow-sm">
-                  <Sparkles className="w-4 h-4" />
-                  Mulai Buat Perangkat Ajar
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-white/10 hover:bg-white/20 text-white border-white/20"
-                onClick={() => setActiveTab("preview-kop")}
-              >
-                Pratinjau Kop Kedinasan
-              </Button>
-            </div>
-          </div>
-          {/* Subtle Decorative Elements */}
-          <div className="absolute right-0 bottom-0 translate-x-12 translate-y-12 w-96 h-96 rounded-full bg-blue-600/20 blur-3xl pointer-events-none" />
-        </section>
-
-        {/* Feature Grid */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold tracking-tight text-slate-900">
-                Modul Generator & Asisten Pembelajaran
-              </h2>
-              <p className="text-xs text-slate-500">
-                Pilih modul kerja yang ingin Anda susun hari ini
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {/* 1. Soal Generator */}
-            <Link href="/soal-generator" className="block">
-              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
-                <CardHeader className="pb-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-2 group-hover:bg-blue-700 group-hover:text-white transition-colors">
-                    <FileCheck2 className="w-5 h-5" />
-                  </div>
-                  <CardTitle className="text-base group-hover:text-blue-700 transition-colors">
-                    Soal & Evaluasi Generator
-                  </CardTitle>
-                  <CardDescription className="text-xs leading-normal">
-                    Pilihan Ganda, PG Kompleks, Uraian dengan kontrol LOTS/HOTS, Bloom C1-C6, dan Matriks Kisi-kisi.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center text-xs font-semibold text-blue-700 gap-1 mt-2">
-                    <span>Buka Generator</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* 2. Modul Ajar Generator */}
-            <Link href="/modul-ajar" className="block">
-              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
-                <CardHeader className="pb-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-2 group-hover:bg-emerald-700 group-hover:text-white transition-colors">
-                    <FileText className="w-5 h-5" />
-                  </div>
-                  <CardTitle className="text-base group-hover:text-emerald-700 transition-colors">
-                    Modul Ajar Kurikulum Merdeka
-                  </CardTitle>
-                  <CardDescription className="text-xs leading-normal">
-                    Mode Ringkas (1-2 Lembar) dan Mode Lengkap BSKAP 2024 disertai diferensiasi konten, proses, dan produk.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center text-xs font-semibold text-emerald-700 gap-1 mt-2">
-                    <span>Buka Generator</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* 3. Perangkat Tahunan */}
-            <Link href="/perangkat-tahunan" className="block">
-              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
-                <CardHeader className="pb-3">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center mb-2 group-hover:bg-indigo-700 group-hover:text-white transition-colors">
-                    <CalendarDays className="w-5 h-5" />
-                  </div>
-                  <CardTitle className="text-base group-hover:text-indigo-700 transition-colors">
-                    ATP, Prota, & Promes
-                  </CardTitle>
-                  <CardDescription className="text-xs leading-normal">
-                    Pemisahan CP ke TP dan penyusunan tabel jam efektif sesuai kalender pendidikan sekolah.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center text-xs font-semibold text-indigo-700 gap-1 mt-2">
-                    <span>Buka Generator</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* 4. Slide Presentasi */}
-            <Link href="/presentasi" className="block">
-              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
-                <CardHeader className="pb-3">
-                  <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-2 group-hover:bg-amber-700 group-hover:text-white transition-colors">
-                    <Presentation className="w-5 h-5" />
-                  </div>
-                  <CardTitle className="text-base group-hover:text-amber-700 transition-colors">
-                    Slide Bahan Tayang (.PPTX)
-                  </CardTitle>
-                  <CardDescription className="text-xs leading-normal">
-                    Slide alur pedagogis interaktif yang dapat diedit langsung dalam format Microsoft PowerPoint asli.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center text-xs font-semibold text-amber-700 gap-1 mt-2">
-                    <span>Buka Generator</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </div>
-        </section>
-
-        {/* Live Interactive Preview Tabs: Official Standards */}
-        <section className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Award className="w-5 h-5 text-blue-700" />
-                Standar Dokumen Resmi & Format Cetak Kedinasan
-              </h2>
-              <p className="text-xs text-slate-500">
-                Setiap dokumen secara otomatis disesuaikan dengan data profil sekolah Anda
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant={activeTab === "overview" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveTab("overview")}
-              >
-                Contoh Paket Soal
-              </Button>
-              <Button
-                variant={activeTab === "preview-kop" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveTab("preview-kop")}
-              >
-                Kop Surat Resmi
-              </Button>
-              <Button
-                variant={activeTab === "preview-pengesahan" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveTab("preview-pengesahan")}
-              >
-                Lembar Pengesahan
-              </Button>
-            </div>
-          </div>
-
-          {/* Tab 1: Contoh Paket Soal */}
-          {activeTab === "overview" && (
-            <div className="space-y-6">
-              <div className="p-4 rounded-lg bg-blue-50/50 border border-blue-100 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-                <div className="space-y-1">
-                  <div className="font-semibold text-slate-800">
-                    Fisika - Gerak dan Gaya | Fase E (Kelas X)
-                  </div>
-                  <div className="text-slate-500">
-                    Guru: Arfian Cahya | Satuan: SMAN 1 Purwantoro | Semester: Ganjil | TA: 2026/2027
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="gap-1.5 text-xs bg-white">
-                    <Download className="w-3.5 h-3.5 text-blue-700" />
-                    Unduh DOCX
-                  </Button>
-                  <Button variant="outline" size="sm" className="gap-1.5 text-xs bg-white">
-                    <Download className="w-3.5 h-3.5 text-red-600" />
-                    Unduh PDF
-                  </Button>
-                </div>
+      {/* 2. Hero Section */}
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-blue-50/60 via-white to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-xs font-bold text-blue-900 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-blue-700" />
+                <span>Teknologi Guru Cerdas - Kurikulum Merdeka BSKAP 2024</span>
               </div>
 
-              {/* Sample Question Item */}
-              <div className="p-5 rounded-lg border border-slate-200 bg-white space-y-4">
-                <div className="flex items-center justify-between">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+                Buat soal berkualitas dalam{" "}
+                <span className="text-blue-700 underline decoration-blue-300 decoration-wavy decoration-2">
+                  hitungan detik
+                </span>{" "}
+                bersama Guru AI
+              </h1>
+
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Rancang paket asesmen, kuis, latihan HOTS/AKM, modul ajar berdiferensiasi, ATP, dan format kedinasan lengkap dengan Matriks Kisi-Kisi dan rubrik penskoran standar resmi.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                <Link href="/login" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm h-11 px-7 shadow-md gap-2">
+                    <span>Coba Generator Sekarang</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <a href="#cara-kerja" className="w-full sm:w-auto">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto text-slate-700 font-bold text-sm h-11 px-6">
+                    Lihat Cara Kerja
+                  </Button>
+                </a>
+              </div>
+
+              {/* Trust Checkmarks */}
+              <div className="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-5 text-xs font-semibold text-slate-600">
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-600" />
+                  <span>Tanpa ribet klerikal</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-600" />
+                  <span>Regulasi BSKAP 2024</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-emerald-600" />
+                  <span>Ekspor Word & PowerPoint</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Hero Visual Mockup */}
+            <div className="lg:col-span-5 relative">
+              <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xl p-5 space-y-4 relative z-10">
+                {/* Simulated Header */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-slate-800">SOAL 1</span>
-                    <Badge variant="warning">SEDANG</Badge>
-                    <Badge variant="info">MOTS</Badge>
-                    <Badge variant="secondary">C3 (Aplikasi)</Badge>
+                    <div className="w-3 h-3 rounded-full bg-red-400" />
+                    <div className="w-3 h-3 rounded-full bg-amber-400" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-400" />
+                    <span className="text-[11px] font-bold text-slate-400 ml-2">Generator Soal & Kisi-Kisi</span>
                   </div>
-                  <span className="text-xs text-slate-500 font-mono">Bobot Skor: 2</span>
+                  <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-800 border-blue-200">
+                    Otomatis 100%
+                  </Badge>
                 </div>
 
-                <p className="text-sm text-slate-800 leading-relaxed">
-                  Seorang atlet berlari mengelilingi lintasan atletik berbentuk lingkaran dengan diameter 140 m. Atlet tersebut menempuh setengah lingkaran dalam waktu 20 detik. Berapakah kelajuan rata-rata dan kecepatan rata-rata atlet tersebut? (Gunakan &pi; = 22/7)
-                </p>
+                {/* Simulated Content */}
+                <div className="space-y-3 text-xs">
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1.5">
+                    <div className="flex justify-between items-center text-[10px] text-slate-600">
+                      <span>Mata Pelajaran: Fisika (Kelas X)</span>
+                      <span className="font-bold text-blue-700">Level: HOTS (C4-C6)</span>
+                    </div>
+                    <p className="font-semibold text-slate-900 text-xs">
+                      Stimulus: Analisis grafik kecepatan terhadap waktu pada kendaraan listrik perkotaan.
+                    </p>
+                  </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <div className="p-2.5 rounded-md border border-slate-200 bg-slate-50/50 flex items-center gap-2">
-                    <span className="font-bold text-slate-700">A.</span>
-                    <span>11 m/s dan 7 m/s</span>
+                  {/* Options sample */}
+                  <div className="space-y-1.5">
+                    <div className="p-2 rounded border border-slate-200 bg-white flex items-center justify-between text-[11px]">
+                      <span>A. Percepatan tetap pada fase pertama</span>
+                      <span className="text-slate-600 text-[10px]">Opsi</span>
+                    </div>
+                    <div className="p-2 rounded border border-emerald-500 bg-emerald-50/70 flex items-center justify-between text-[11px] font-semibold text-emerald-950">
+                      <span>B. Energi kinetik sebanding dengan kuadrat kelajuan</span>
+                      <span className="text-emerald-700 text-[10px] font-bold">Kunci Jawaban</span>
+                    </div>
                   </div>
-                  <div className="p-2.5 rounded-md border border-slate-200 bg-slate-50/50 flex items-center gap-2">
-                    <span className="font-bold text-slate-700">B.</span>
-                    <span>22 m/s dan 14 m/s</span>
-                  </div>
-                  <div className="p-2.5 rounded-md border border-slate-200 bg-slate-50/50 flex items-center gap-2">
-                    <span className="font-bold text-slate-700">C.</span>
-                    <span>7 m/s dan 11 m/s</span>
-                  </div>
-                  <div className="p-2.5 rounded-md border border-slate-200 bg-slate-50/50 flex items-center gap-2">
-                    <span className="font-bold text-slate-700">D.</span>
-                    <span>11 m/s dan 11 m/s</span>
-                  </div>
-                </div>
 
-                {/* Kunci & Pembahasan */}
-                <div className="p-3.5 rounded-md bg-emerald-50 border border-emerald-200 text-xs space-y-1">
-                  <p className="font-bold text-emerald-800">
-                    Kunci Jawaban: A
-                  </p>
-                  <p className="text-emerald-950 leading-relaxed font-sans">
-                    <strong>Pembahasan:</strong> Keliling lintasan setengah lingkaran adalah s = 0.5 &times; &pi; &times; d = 0.5 &times; (22/7) &times; 140 = 220 m. Kelajuan rata-rata = s / t = 220 / 20 = 11 m/s. Perpindahan atlet adalah diameter lingkaran yaitu &Delta;x = 140 m. Kecepatan rata-rata = &Delta;x / t = 140 / 20 = 7 m/s.
-                  </p>
+                  {/* Document Outputs */}
+                  <div className="grid grid-cols-3 gap-2 pt-1 text-[10px] text-center font-bold">
+                    <div className="p-2 bg-blue-50 rounded text-blue-900 border border-blue-200">
+                      Naskah Soal
+                    </div>
+                    <div className="p-2 bg-emerald-50 rounded text-emerald-900 border border-emerald-200">
+                      Matriks Kisi-Kisi
+                    </div>
+                    <div className="p-2 bg-indigo-50 rounded text-indigo-900 border border-indigo-200">
+                      DOCX 4-3-3-3 cm
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              {/* Decorative Blur Backdrops */}
+              <div className="absolute -top-6 -right-6 w-60 h-60 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-6 -left-6 w-60 h-60 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none" />
             </div>
-          )}
-
-          {/* Tab 2: Pratinjau Kop Surat Resmi */}
-          {activeTab === "preview-kop" && (
-            <div className="space-y-4">
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-md text-xs text-amber-900">
-                Kop surat ini akan otomatis diletakkan pada halaman muka berkas naskah soal, modul ajar, dan bundel administrasi pengawas.
-              </div>
-              <div className="p-6 bg-white border border-slate-300 rounded-lg shadow-xs">
-                <OfficialLetterhead school={sampleSchool} />
-                <div className="text-center py-8 text-xs text-slate-400 font-mono">
-                  [Konten Naskah Ujian / Modul Ajar Dimulai Di Sini]
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Tab 3: Pratinjau Lembar Pengesahan */}
-          {activeTab === "preview-pengesahan" && (
-            <div className="space-y-4">
-              <div className="p-3 bg-blue-50 border border-blue-200 rounded-md text-xs text-blue-900">
-                Lembar pengesahan resmi memuat tanda tangan Guru Mata Pelajaran, Kepala Sekolah, dan Pengawas Pembina untuk memenuhi syarat supervisi akademik dinas pendidikan.
-              </div>
-              <EndorsementSheet
-                school={sampleSchool}
-                teacher={sampleTeacher}
-                subject="Fisika"
-                grade="Fase E (Kelas X)"
-                academicYear="2026/2027"
-                semester="Ganjil"
-              />
-            </div>
-          )}
-        </section>
-
-        {/* Roadmap Progress Status */}
-        <section className="bg-slate-100/70 border border-slate-200 rounded-xl p-5 text-xs text-slate-600 space-y-2">
-          <div className="flex items-center justify-between font-semibold text-slate-800">
-            <span className="flex items-center gap-2">
-              <Layers className="w-4 h-4 text-blue-700" />
-              Status Milestone Pembangunan (Security by Design & SSOT)
-            </span>
-            <span className="text-blue-700 font-bold">Milestone 0: Selesai</span>
           </div>
-          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-            <div className="bg-blue-700 h-full w-[25%]" />
-          </div>
-          <p className="text-[11px] text-slate-500">
-            Fondasi repositori, Supabase migration dengan Row Level Security (RLS), design tokens, serta komponen Kop Surat Kedinasan telah siap dan dipush ke GitHub.
+        </div>
+      </section>
+
+      {/* 3. Jenjang Bar */}
+      <section className="py-8 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            Disediakan untuk Pendidik dari Berbagai Satuan Pendidikan Nasional
           </p>
-        </section>
-      </main>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4">
+            {["SD / MI", "SMP / MTs", "SMA / MA", "SMK / MAK", "SLB / Inklusi"].map((lvl) => (
+              <span
+                key={lvl}
+                className="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold text-slate-700 shadow-xs"
+              >
+                {lvl}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-        <p className="max-w-7xl mx-auto px-4">
-          GuruHub AI &mdash; Platform Perangkat Ajar & Evaluasi Terpadu Kurikulum Merdeka (SD, SMP, SMA). Sesuai Panduan Pembelajaran dan Asesmen BSKAP Kemendikbudristek No. 032/H/KR/2024.
-        </p>
+      {/* 4. Section: Dari Pengaturan Hingga Dokumen Siap Cetak (Interactive Flow) */}
+      <section id="cara-kerja" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
+              ALUR KERJA INTUITIF
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Dari pengaturan hingga berkas resmi siap cetak
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Cukup tentukan parameter pembelajaran Anda, sistem akan menyusun naskah lengkap berserta dokumen pendukung supervisi.
+            </p>
+          </div>
+
+          {/* Interactive Preview Tabs */}
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <div className="flex justify-center gap-2 border-b border-slate-200 pb-3">
+              <Button
+                variant={previewTab === "soal" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPreviewTab("soal")}
+                className="text-xs font-bold"
+              >
+                1. Naskah Soal & Kunci
+              </Button>
+              <Button
+                variant={previewTab === "kisi" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPreviewTab("kisi")}
+                className="text-xs font-bold"
+              >
+                2. Matriks Kisi-Kisi Ujian
+              </Button>
+              <Button
+                variant={previewTab === "modul" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPreviewTab("modul")}
+                className="text-xs font-bold"
+              >
+                3. Modul Ajar BSKAP 2024
+              </Button>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+              {previewTab === "soal" && (
+                <div className="space-y-4 text-xs">
+                  <div className="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-800 text-sm">Paket Soal Asesmen Sumatif</span>
+                    <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-800 font-bold">
+                      Format Cetak A4
+                    </Badge>
+                  </div>
+                  <p className="text-slate-700 leading-relaxed">
+                    Setiap butir soal dilengkapi stimulus kontekstual, opsi jawaban proporsional, kunci jawaban akurat, serta pembahasan pedagogis untuk umpan balik konstruktif siswa.
+                  </p>
+                  <div className="p-3 bg-white rounded border border-slate-200 text-slate-800 italic">
+                    Contoh: Mengapa pemuaian rel kereta api harus diperhitungkan dalam rekayasa jembatan baja? Jelaskan berdasarkan prinsip kalor dan hukum termodinamika.
+                  </div>
+                </div>
+              )}
+
+              {previewTab === "kisi" && (
+                <div className="space-y-4 text-xs">
+                  <div className="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-800 text-sm">Matriks Kisi-Kisi Ujian Resmi</span>
+                    <Badge variant="outline" className="text-xs bg-blue-50 text-blue-800 font-bold">
+                      Standar Arsip Dinas
+                    </Badge>
+                  </div>
+                  <p className="text-slate-700 leading-relaxed">
+                    Tabel matriks memetakan Capaian Pembelajaran (CP), Tujuan Pembelajaran (TP), Indikator Soal, Level Kognitif (LOTS/MOTS/HOTS), dan Bobot Nilai tanpa hitungan manual.
+                  </p>
+                </div>
+              )}
+
+              {previewTab === "modul" && (
+                <div className="space-y-4 text-xs">
+                  <div className="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-800 text-sm">Modul Ajar Supervisi BSKAP 2024</span>
+                    <Badge variant="outline" className="text-xs bg-purple-50 text-purple-800 font-bold">
+                      3 Pilar Diferensiasi
+                    </Badge>
+                  </div>
+                  <p className="text-slate-700 leading-relaxed">
+                    Lengkap dengan diferensiasi konten, proses, dan produk, serta lampiran Lembar Kerja Peserta Didik (LKPD), bahan bacaan, glosarium, dan lembar pengesahan kepala sekolah.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Section: Waktu Anda Lebih Baik Digunakan untuk Mendampingi Siswa */}
+      <section id="efisiensi" className="py-20 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
+              EFISIENSI WAKTU GURU
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Waktu Anda lebih baik digunakan untuk mendampingi siswa
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Beban administrasi menyita lebih dari 40% jam kerja guru. GuruHub AI mengotomasi proses klerikal agar fokus Anda kembali pada interaksi bermakna di ruang kelas.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="border-slate-200 bg-white shadow-xs p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                <Clock className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Hemat Waktu Penyusunan</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Pembuatan naskah soal, kisi-kisi, dan modul ajar yang biasa memakan waktu berjam-jam dapat diselesaikan dalam beberapa detik.
+              </p>
+            </Card>
+
+            <Card className="border-slate-200 bg-white shadow-xs p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Dokumentasi Standar Dinas</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Format berkas mengikuti standar kedinasan dengan margin 4-3-3-3 cm, Kop Surat dua logo, dan kolom tanda tangan pengawas.
+              </p>
+            </Card>
+
+            <Card className="border-slate-200 bg-white shadow-xs p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold">
+                <Sliders className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Guru Memegang Kendali</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Setiap butir soal dan skenario ajar dapat disunting secara langsung (in-line edit) sebelum disimpan atau dicetak.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Section Dark: Tiga Langkah Menuju Soal Siap Pakai */}
+      <section className="py-20 bg-slate-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-5 space-y-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+                PROSES CEPAT & SEDERHANA
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-snug">
+                Tiga langkah menuju perangkat siap pakai
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Tidak perlu perintah prompt yang rumit. Sistem kami menyediakan formulir wizard terpandu dengan istilah pedagogis yang sudah akrab bagi Anda.
+              </p>
+              <div className="pt-2">
+                <Link href="/login">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-10 px-6 shadow-sm">
+                    Mulai Sekarang
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 space-y-4">
+              <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-4">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm shrink-0">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Pilih Jenjang, Fase, & Lingkup Materi</h4>
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                    Tentukan tingkat kelas, fase kurikulum (A s/d F), serta topik materi yang ingin diujikan atau diajarkan.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-4">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm shrink-0">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Atur Standar & Komposisi Kognitif</h4>
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                    Sesuaikan persentase tingkat kesulitan (mudah, sedang, sulit) serta taksonomi Bloom (C1 s/d C6) secara instan.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-4">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm shrink-0">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Periksa, Edit, dan Ekspor Berkas Resmi</h4>
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                    Tinjau naskah di layar, lakukan penyesuaian jika diperlukan, lalu unduh dalam format Microsoft Word (.DOCX) atau PowerPoint (.PPTX).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Section: Bukan Sekadar Generator Biasa (Feature Grid) */}
+      <section id="fitur" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
+              KEMAMPUAN PEDAGOGIS MENDALAM
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Bukan sekadar membuat pertanyaan
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Setiap keluaran dokumen dikonstruksi secara ilmiah agar dapat dipertanggungjawabkan dalam supervisi akademik dan penilaian PMM.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">Stimulus Variatif AKM</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Mendukung stimulus kutipan teks, studi kasus kontekstual, data tabel, dan permasalahan dunia nyata.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">Tingkat Kesulitan Akurat</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Pengaturan proporsi tingkat kesulitan (Mudah, Sedang, Sulit) dengan validasi otomatis total 100%.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">Kunci & Pembahasan Lengkap</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Disertai penjelasan penalaran ilmiah per butir soal untuk mempermudah evaluasi dan remedial siswa.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">Taksonomi Bloom C1 s/d C6</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Pemetaan ranah berpikir dari mengingat (C1) hingga mencipta (C6) sesuai format asesmen modern.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">3 Pilar Pembelajaran Berdiferensiasi</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Modul ajar merinci diferensiasi konten, proses, dan produk sesuai kesiapan belajar peserta didik.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <span className="font-bold text-sm text-slate-900 block">Dukungan Formula KaTeX & Sains</span>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Formula matematika, reaksi kimia, dan simbol fisika dirender rapi dan dapat diedit di Word.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Section FAQ Accordion */}
+      <section id="faq" className="py-20 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+          <div className="text-center space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
+              PERTANYAAN UMUM
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Masih ingin tahu tentang GuruHub AI?
+            </h2>
+            <p className="text-sm text-slate-600">
+              Pertanyaan yang paling sering diajukan oleh para pendidik mengenai platform ini
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all shadow-xs"
+                >
+                  <button
+                    onClick={() => setActiveFaq(isOpen ? null : idx)}
+                    className="w-full p-4.5 sm:p-5 text-left flex justify-between items-center gap-4 focus:outline-none"
+                  >
+                    <span className="font-bold text-sm text-slate-900">{faq.q}</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-5 pt-0 text-xs text-slate-600 leading-relaxed border-t border-slate-100 mt-1">
+                      <p className="pt-3">{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 9. Bottom CTA Banner */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 rounded-3xl p-8 sm:p-12 text-center text-white space-y-6 shadow-xl relative overflow-hidden">
+            <div className="max-w-2xl mx-auto space-y-3 relative z-10">
+              <span className="inline-block text-xs font-bold uppercase tracking-wider text-blue-200 bg-blue-800/80 px-3 py-1 rounded-full border border-blue-400/30">
+                Akses Gratis untuk Pendidik Indonesia
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
+                Punya materi untuk diajarkan? Susun perangkatnya sekarang.
+              </h2>
+              <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed">
+                Bergabunglah bersama ribuan guru yang telah menghemat waktu administrasi dan menghadirkan pembelajaran berkualitas di kelas.
+              </p>
+              <div className="pt-2">
+                <Link href="/login">
+                  <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-extrabold text-sm h-11 px-8 shadow-md gap-2">
+                    <span>Mulai Buat Perangkat Ajar Sekarang</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="absolute right-0 top-0 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+          </div>
+        </div>
+      </section>
+
+      {/* 10. Footer */}
+      <footer className="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="space-y-3 md:col-span-2">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
+                  G
+                </div>
+                <span className="font-extrabold text-base text-white tracking-tight">
+                  GuruHub AI
+                </span>
+              </div>
+              <p className="text-slate-400 text-xs max-w-sm leading-relaxed">
+                Platform terpadu otomasi administrasi Kurikulum Merdeka, Soal AKM/HOTS, Modul Ajar BSKAP 2024, ATP, dan Media Presentasi untuk kemajuan pendidikan Indonesia.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-bold text-white uppercase tracking-wider text-[11px] block">
+                Modul Generator
+              </span>
+              <ul className="space-y-1.5 text-slate-400">
+                <li><Link href="/login" className="hover:text-white transition-colors">Soal & Kisi-Kisi</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Modul Ajar BSKAP</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">ATP & Pekan Efektif</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Slide PPTX & LKPD</Link></li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-bold text-white uppercase tracking-wider text-[11px] block">
+                Regulasi & Standar
+              </span>
+              <ul className="space-y-1.5 text-slate-400">
+                <li>BSKAP No. 032/H/KR/2024</li>
+                <li>Permendikbudristek No. 12/2024</li>
+                <li>Perdirjen GTK Kinerja PMM</li>
+                <li>Format Kedinasan 4-3-3-3 cm</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-600 gap-3">
+            <span>Hak Cipta 2026 GuruHub AI. Seluruh hak cipta dilindungi undang-undang.</span>
+            <span>Security by Design & Standar Pendidikan Nasional Indonesia</span>
+          </div>
+        </div>
       </footer>
     </div>
   );
