@@ -165,25 +165,27 @@ export default function HomePage() {
             </Link>
 
             {/* 2. Modul Ajar Generator */}
-            <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader className="pb-3">
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-2 group-hover:bg-emerald-700 group-hover:text-white transition-colors">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <CardTitle className="text-base group-hover:text-emerald-700 transition-colors">
-                  Modul Ajar Kurikulum Merdeka
-                </CardTitle>
-                <CardDescription className="text-xs leading-normal">
-                  Mode Ringkas (1-2 Lembar) dan Mode Lengkap BSKAP 2024 disertai diferensiasi konten, proses, dan produk.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center text-xs font-semibold text-emerald-700 gap-1 mt-2">
-                  <span>Buka Generator</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
+            <Link href="/modul-ajar" className="block">
+              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
+                <CardHeader className="pb-3">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-2 group-hover:bg-emerald-700 group-hover:text-white transition-colors">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <CardTitle className="text-base group-hover:text-emerald-700 transition-colors">
+                    Modul Ajar Kurikulum Merdeka
+                  </CardTitle>
+                  <CardDescription className="text-xs leading-normal">
+                    Mode Ringkas (1-2 Lembar) dan Mode Lengkap BSKAP 2024 disertai diferensiasi konten, proses, dan produk.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex items-center text-xs font-semibold text-emerald-700 gap-1 mt-2">
+                    <span>Buka Generator</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
 
             {/* 3. Perangkat Tahunan */}
             <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
