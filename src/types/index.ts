@@ -110,6 +110,29 @@ export interface QuestionPackage {
   updated_at: string;
 }
 
+export interface KisiKisiItem {
+  nomor_urut: number;
+  capaian_pembelajaran: string;
+  tujuan_pembelajaran_materi: string;
+  indikator_soal: string;
+  level_kognitif: string; // misal: "C3 (Aplikasi) / MOTS"
+  bentuk_soal: QuestionType;
+  nomor_soal: number;
+  bobot_skor: number;
+}
+
+export interface ScoringRubricCriteria {
+  aspek: string;
+  kriteria: string;
+  skor_maksimal: number;
+}
+
+export interface ScoringGuide {
+  skor_maksimal_total: number;
+  rumus_nilai_akhir: string;
+  rubrik_uraian?: ScoringRubricCriteria[];
+}
+
 export interface TeachingModule {
   id: string;
   user_id: string;

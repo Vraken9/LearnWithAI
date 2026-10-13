@@ -24,9 +24,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { MathRenderer } from "@/components/ui/math-renderer";
+import { KisiKisiTable } from "@/components/evaluasi/KisiKisiTable";
+import { QuestionItemCard } from "@/components/evaluasi/QuestionItemCard";
+import { ScoringRubricView } from "@/components/evaluasi/ScoringRubricView";
 import { QuestionPackage, QuestionItem, SchoolProfile, TeacherProfile } from "@/types";
 
 export default function SoalGeneratorPage() {
+  const [resultTab, setResultTab] = useState<"soal" | "kisi-kisi" | "kartu-soal" | "rubrik">("soal");
   // Master Profile dari localStorage
   const [school, setSchool] = useState<Partial<SchoolProfile>>({
     school_name: "SMAN 1 Purwantoro",
@@ -756,136 +760,211 @@ export default function SoalGeneratorPage() {
               </div>
             </div>
 
-            {/* List Butir Soal */}
-            <div className="space-y-4">
-              {generatedPackage.questions?.map((q, idx) => (
-                <Card key={idx} className="shadow-xs border-slate-200">
-                  <CardHeader className="pb-3 border-b border-slate-100 flex flex-row items-center justify-between">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-bold text-xs text-slate-800">
-                        SOAL {q.question_number}
-                      </span>
-                      <Badge variant="outline" className="text-[10px]">
-                        {q.difficulty.toUpperCase()}
-                      </Badge>
-                      <Badge variant="info" className="text-[10px]">
-                        {q.cognitive_level}
-                      </Badge>
-                      <Badge variant="secondary" className="text-[10px]">
-                        {q.bloom_level}
-                      </Badge>
-                    </div>
+            {/* Navigasi Dokumen Evaluasi (4 Dokumen Resmi) */}
+            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3 no-print">
+              <Button
+                variant={resultTab === "soal" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setResultTab("soal")}
+                className="text-xs"
+              >
+                1. Naskah Soal & Kunci
+              </Button>
+              <Button
+                variant={resultTab === "kisi-kisi" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setResultTab("kisi-kisi")}
+                className="text-xs"
+              >
+                2. Matriks Kisi-Kisi Ujian
+              </Button>
+              <Button
+                variant={resultTab === "kartu-soal" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setResultTab("kartu-soal")}
+                className="text-xs"
+              >
+                3. Kartu Soal Bank Soal
+              </Button>
+              <Button
+                variant={resultTab === "rubrik" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setResultTab("rubrik")}
+                className="text-xs"
+              >
+                4. Pedoman Penskoran & KKTP
+              </Button>
+            </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] text-slate-400 font-mono">
-                        Skor: {q.score_weight}
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setEditingIndex(editingIndex === idx ? null : idx)}
-                        className="h-7 px-2 text-xs text-slate-500"
-                      >
-                        <Edit3 className="w-3.5 h-3.5" />
-                      </Button>
-                    </div>
-                  </CardHeader>
+            {/* TAB 1: List Butir Soal */}
+            {resultTab === "soal" && (
+              <div className="space-y-4">
+                {generatedPackage.questions?.map((q, idx) => (
+                  <Card key={idx} className="shadow-xs border-slate-200">
+                    <CardHeader className="pb-3 border-b border-slate-100 flex flex-row items-center justify-between">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-bold text-xs text-slate-800">
+                          SOAL {q.question_number}
+                        </span>
+                        <Badge variant="outline" className="text-[10px]">
+                          {q.difficulty.toUpperCase()}
+                        </Badge>
+                        <Badge variant="info" className="text-[10px]">
+                          {q.cognitive_level}
+                        </Badge>
+                        <Badge variant="secondary" className="text-[10px]">
+                          {q.bloom_level}
+                        </Badge>
+                      </div>
 
-                  <CardContent className="pt-4 space-y-4 text-sm">
-                    {/* Tampilan Edit Mode */}
-                    {editingIndex === idx ? (
-                      <div className="space-y-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <div className="space-y-1">
-                          <Label className="text-xs">Teks Soal</Label>
-                          <Textarea
-                            value={q.question_text}
-                            onChange={(e) =>
-                              handleQuestionEdit(idx, { ...q, question_text: e.target.value })
-                            }
-                            rows={3}
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs">Kunci Jawaban</Label>
-                          <Input
-                            value={q.correct_answer}
-                            onChange={(e) =>
-                              handleQuestionEdit(idx, { ...q, correct_answer: e.target.value })
-                            }
-                            className="w-24"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs">Pembahasan</Label>
-                          <Textarea
-                            value={q.explanation}
-                            onChange={(e) =>
-                              handleQuestionEdit(idx, { ...q, explanation: e.target.value })
-                            }
-                            rows={3}
-                          />
-                        </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] text-slate-400 font-mono">
+                          Skor: {q.score_weight}
+                        </span>
                         <Button
+                          variant="ghost"
                           size="sm"
-                          onClick={() => setEditingIndex(null)}
-                          className="text-xs bg-blue-800 text-white"
+                          onClick={() => setEditingIndex(editingIndex === idx ? null : idx)}
+                          className="h-7 px-2 text-xs text-slate-500"
                         >
-                          Simpan Suntingan
+                          <Edit3 className="w-3.5 h-3.5" />
                         </Button>
                       </div>
-                    ) : (
-                      <>
-                        {/* Stimulus jika ada */}
-                        {q.stimulus_text && (
-                          <div className="p-3 bg-slate-50 border-l-4 border-blue-700 text-xs text-slate-700 italic leading-relaxed">
-                            <MathRenderer content={q.stimulus_text} />
-                          </div>
-                        )}
+                    </CardHeader>
 
-                        {/* Teks Soal dengan LaTeX */}
-                        <div className="text-slate-900 leading-relaxed font-medium">
-                          <MathRenderer content={q.question_text} />
+                    <CardContent className="pt-4 space-y-4 text-sm">
+                      {/* Tampilan Edit Mode */}
+                      {editingIndex === idx ? (
+                        <div className="space-y-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Teks Soal</Label>
+                            <Textarea
+                              value={q.question_text}
+                              onChange={(e) =>
+                                handleQuestionEdit(idx, { ...q, question_text: e.target.value })
+                              }
+                              rows={3}
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Kunci Jawaban</Label>
+                            <Input
+                              value={q.correct_answer}
+                              onChange={(e) =>
+                                handleQuestionEdit(idx, { ...q, correct_answer: e.target.value })
+                              }
+                              className="w-24"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Pembahasan</Label>
+                            <Textarea
+                              value={q.explanation}
+                              onChange={(e) =>
+                                handleQuestionEdit(idx, { ...q, explanation: e.target.value })
+                              }
+                              rows={3}
+                            />
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => setEditingIndex(null)}
+                            className="text-xs bg-blue-800 text-white"
+                          >
+                            Simpan Suntingan
+                          </Button>
                         </div>
-
-                        {/* Opsi Jawaban */}
-                        {q.options && (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
-                            {q.options.map((opt) => (
-                              <div
-                                key={opt.label}
-                                className={`p-3 rounded-lg border transition-colors flex items-start gap-2.5 ${
-                                  showAnswers && opt.label === q.correct_answer
-                                    ? "border-emerald-500 bg-emerald-50/60 font-semibold text-emerald-950"
-                                    : "border-slate-200 bg-slate-50/40 text-slate-800"
-                                }`}
-                              >
-                                <span className="font-bold text-slate-900 w-4">{opt.label}.</span>
-                                <div className="flex-1">
-                                  <MathRenderer content={opt.text} />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Kotak Kunci Jawaban & Pembahasan (Mirip Gambar 3) */}
-                        {showAnswers && (
-                          <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 space-y-1.5 mt-2">
-                            <p className="font-bold text-emerald-900">
-                              Kunci: {q.correct_answer}
-                            </p>
-                            <div className="leading-relaxed">
-                              <strong>Pembahasan:</strong>{" "}
-                              <MathRenderer content={q.explanation} />
+                      ) : (
+                        <>
+                          {/* Stimulus jika ada */}
+                          {q.stimulus_text && (
+                            <div className="p-3 bg-slate-50 border-l-4 border-blue-700 text-xs text-slate-700 italic leading-relaxed">
+                              <MathRenderer content={q.stimulus_text} />
                             </div>
+                          )}
+
+                          {/* Teks Soal dengan LaTeX */}
+                          <div className="text-slate-900 leading-relaxed font-medium">
+                            <MathRenderer content={q.question_text} />
                           </div>
-                        )}
-                      </>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+
+                          {/* Opsi Jawaban */}
+                          {q.options && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+                              {q.options.map((opt) => (
+                                <div
+                                  key={opt.label}
+                                  className={`p-3 rounded-lg border transition-colors flex items-start gap-2.5 ${
+                                    showAnswers && opt.label === q.correct_answer
+                                      ? "border-emerald-500 bg-emerald-50/60 font-semibold text-emerald-950"
+                                      : "border-slate-200 bg-slate-50/40 text-slate-800"
+                                  }`}
+                                >
+                                  <span className="font-bold text-slate-900 w-4">{opt.label}.</span>
+                                  <div className="flex-1">
+                                    <MathRenderer content={opt.text} />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Kotak Kunci Jawaban & Pembahasan (Mirip Gambar 3) */}
+                          {showAnswers && (
+                            <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 space-y-1.5 mt-2">
+                              <p className="font-bold text-emerald-900">
+                                Kunci: {q.correct_answer}
+                              </p>
+                              <div className="leading-relaxed">
+                                <strong>Pembahasan:</strong>{" "}
+                                <MathRenderer content={q.explanation} />
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+
+            {/* TAB 2: Matriks Kisi-Kisi Ujian Resmi */}
+            {resultTab === "kisi-kisi" && (
+              <div className="bg-white border border-slate-300 rounded-lg shadow-xs overflow-hidden">
+                <KisiKisiTable
+                  packageData={generatedPackage}
+                  school={school}
+                  teacher={teacher}
+                />
+              </div>
+            )}
+
+            {/* TAB 3: Kartu Soal Bank Soal */}
+            {resultTab === "kartu-soal" && (
+              <div className="space-y-4">
+                {generatedPackage.questions?.map((q) => (
+                  <QuestionItemCard
+                    key={q.question_number}
+                    question={q}
+                    packageData={generatedPackage}
+                    school={school}
+                    teacher={teacher}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* TAB 4: Pedoman Penskoran & KKTP */}
+            {resultTab === "rubrik" && (
+              <div className="bg-white border border-slate-300 rounded-lg shadow-xs overflow-hidden">
+                <ScoringRubricView
+                  packageData={generatedPackage}
+                  school={school}
+                  teacher={teacher}
+                />
+              </div>
+            )}
           </div>
         )}
       </main>
