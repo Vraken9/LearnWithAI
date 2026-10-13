@@ -282,3 +282,63 @@ export interface PerangkatTahunanBundle {
   promes_1: ProgramSemester;
   promes_2: ProgramSemester;
 }
+
+export type SlideCategory =
+  | "judul"
+  | "apersepsi"
+  | "tujuan"
+  | "konsep_inti"
+  | "studi_kasus"
+  | "kuis_interaktif"
+  | "refleksi"
+  | "tugas_lkpd";
+
+export interface SlideItem {
+  slide_number: number;
+  category: SlideCategory;
+  title: string;
+  subtitle?: string;
+  bullet_points: string[];
+  key_takeaway?: string;
+  speaker_notes: string;
+  interactive_question?: string;
+}
+
+export interface PresentationBundle {
+  id: string;
+  topic: string;
+  subject: string;
+  grade: string;
+  target_duration_minutes: number;
+  theme_palette: "navy_enterprise" | "emerald_nature" | "slate_academic" | "indigo_tech";
+  slides: SlideItem[];
+}
+
+export interface StudentWorksheetLKPD {
+  id: string;
+  title: string;
+  subject: string;
+  grade: string;
+  semester: 1 | 2;
+  group_type: "Individu" | "Kelompok";
+  estimated_minutes: number;
+  learning_objectives: string[];
+  materials_tools: string[];
+  activity_steps: string[];
+  data_observation_table?: {
+    headers: string[];
+    rows: string[][];
+  };
+  analysis_questions: string[];
+  conclusion_prompts: string[];
+  rubric_scoring: Array<{
+    aspect: string;
+    criteria: string;
+    max_score: number;
+  }>;
+}
+
+export interface MediaAjarBundle {
+  presentation: PresentationBundle;
+  worksheet: StudentWorksheetLKPD;
+}

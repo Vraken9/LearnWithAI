@@ -211,25 +211,27 @@ export default function HomePage() {
             </Link>
 
             {/* 4. Slide Presentasi */}
-            <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader className="pb-3">
-                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-2 group-hover:bg-amber-700 group-hover:text-white transition-colors">
-                  <Presentation className="w-5 h-5" />
-                </div>
-                <CardTitle className="text-base group-hover:text-amber-700 transition-colors">
-                  Slide Bahan Tayang (.PPTX)
-                </CardTitle>
-                <CardDescription className="text-xs leading-normal">
-                  Slide alur pedagogis interaktif yang dapat diedit langsung dalam format Microsoft PowerPoint asli.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center text-xs font-semibold text-amber-700 gap-1 mt-2">
-                  <span>Buka Generator</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
+            <Link href="/presentasi" className="block">
+              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
+                <CardHeader className="pb-3">
+                  <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-2 group-hover:bg-amber-700 group-hover:text-white transition-colors">
+                    <Presentation className="w-5 h-5" />
+                  </div>
+                  <CardTitle className="text-base group-hover:text-amber-700 transition-colors">
+                    Slide Bahan Tayang (.PPTX)
+                  </CardTitle>
+                  <CardDescription className="text-xs leading-normal">
+                    Slide alur pedagogis interaktif yang dapat diedit langsung dalam format Microsoft PowerPoint asli.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex items-center text-xs font-semibold text-amber-700 gap-1 mt-2">
+                    <span>Buka Generator</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </section>
 
