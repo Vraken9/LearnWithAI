@@ -107,10 +107,12 @@ export default function HomePage() {
               Platform terpadu untuk guru jenjang SD, SMP, dan SMA. Dihasilkan langsung dalam format resmi siap cetak lengkap dengan Kop Surat Kedinasan, Matriks Kisi-Kisi Soal, Taksonomi Bloom, dan Lembar Pengesahan Pengawas.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button variant="accent" size="lg" className="font-semibold shadow-sm">
-                <Sparkles className="w-4 h-4" />
-                Mulai Buat Perangkat Ajar
-              </Button>
+              <Link href="/soal-generator">
+                <Button variant="accent" size="lg" className="font-semibold shadow-sm">
+                  <Sparkles className="w-4 h-4" />
+                  Mulai Buat Perangkat Ajar
+                </Button>
+              </Link>
               <Button
                 variant="outline"
                 size="lg"
@@ -140,25 +142,27 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* 1. Soal Generator */}
-            <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader className="pb-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-2 group-hover:bg-blue-700 group-hover:text-white transition-colors">
-                  <FileCheck2 className="w-5 h-5" />
-                </div>
-                <CardTitle className="text-base group-hover:text-blue-700 transition-colors">
-                  Soal & Evaluasi Generator
-                </CardTitle>
-                <CardDescription className="text-xs leading-normal">
-                  Pilihan Ganda, PG Kompleks, Uraian dengan kontrol LOTS/HOTS, Bloom C1-C6, dan Matriks Kisi-kisi.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center text-xs font-semibold text-blue-700 gap-1 mt-2">
-                  <span>Buka Generator</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
+            <Link href="/soal-generator" className="block">
+              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
+                <CardHeader className="pb-3">
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-2 group-hover:bg-blue-700 group-hover:text-white transition-colors">
+                    <FileCheck2 className="w-5 h-5" />
+                  </div>
+                  <CardTitle className="text-base group-hover:text-blue-700 transition-colors">
+                    Soal & Evaluasi Generator
+                  </CardTitle>
+                  <CardDescription className="text-xs leading-normal">
+                    Pilihan Ganda, PG Kompleks, Uraian dengan kontrol LOTS/HOTS, Bloom C1-C6, dan Matriks Kisi-kisi.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex items-center text-xs font-semibold text-blue-700 gap-1 mt-2">
+                    <span>Buka Generator</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
 
             {/* 2. Modul Ajar Generator */}
             <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
