@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { DashboardShell } from "@/components/layout/DashboardShell";
 import { SlidePreviewViewer } from "@/components/presentasi/SlidePreviewViewer";
 import { LkpdDocumentViewer } from "@/components/presentasi/LkpdDocumentViewer";
 
@@ -63,27 +64,28 @@ export default function PresentasiPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
-      {/* Top Header */}
-      <header className="border-b border-slate-200 bg-white sticky top-0 z-30 print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Link
-              href="/"
-              className="text-slate-600 hover:text-slate-900 text-xs font-semibold px-2 py-1 rounded hover:bg-slate-100 transition-colors"
-            >
-              Kembali ke Beranda
-            </Link>
-            <span className="text-slate-300">/</span>
-            <span className="font-bold text-sm text-slate-900">
-              Slide Presentasi (.PPTX Asli) & LKPD Interaktif
-            </span>
+    <DashboardShell activeItem="presentasi">
+      <div className="space-y-6 max-w-6xl mx-auto pb-12">
+        {/* Breadcrumb & Header Title */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 print:hidden">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
+              <Link href="/dashboard" className="hover:text-blue-700 transition-colors">
+                Dashboard
+              </Link>
+              <span>/</span>
+              <span className="text-slate-700 font-medium">Perangkat Ajar</span>
+              <span>/</span>
+              <span className="text-blue-700 font-bold">Slide Tayang & LKPD</span>
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
+              <span>Penyusunan Slide Tayang (.PPTX) & LKPD Interaktif</span>
+            </h1>
+            <p className="text-xs text-slate-600 mt-1">
+              Otomasi presentasi kelas berpedagogi Kurikulum Merdeka (Apersepsi, Konsep Inti, Diskusi, Refleksi).
+            </p>
           </div>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
         {/* Wizard Form */}
         <section className="print:hidden">
           <Card className="border-slate-200 shadow-sm">
@@ -283,7 +285,7 @@ export default function PresentasiPage() {
             </Tabs>
           </section>
         )}
-      </main>
-    </div>
+      </div>
+    </DashboardShell>
   );
 }

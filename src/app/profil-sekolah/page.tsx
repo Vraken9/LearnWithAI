@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DashboardShell } from "@/components/layout/DashboardShell";
 import { OfficialLetterhead } from "@/components/kop-surat/OfficialLetterhead";
 import { EndorsementSheet } from "@/components/kop-surat/EndorsementSheet";
 import {
@@ -145,43 +146,44 @@ export default function ProfilSekolahPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* Top Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs no-print">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs text-slate-600">
-                <ArrowLeft className="w-4 h-4" />
-                <span>Kembali ke Beranda</span>
-              </Button>
-            </Link>
-            <div className="h-4 w-px bg-slate-300" />
-            <h1 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-700" />
-              Master Profil Sekolah & Kop Kedinasan
+    <DashboardShell activeItem="profil-sekolah">
+      <div className="space-y-6 max-w-6xl mx-auto pb-12">
+        {/* Breadcrumb & Header Title */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 no-print">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
+              <Link href="/dashboard" className="hover:text-blue-700 transition-colors">
+                Dashboard
+              </Link>
+              <span>/</span>
+              <span className="text-slate-700 font-medium">Master Data</span>
+              <span>/</span>
+              <span className="text-blue-700 font-bold">Profil Sekolah & Kop</span>
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
+              <Building2 className="w-6 h-6 text-blue-700" />
+              <span>Master Profil Sekolah & Kop Kedinasan</span>
             </h1>
+            <p className="text-xs text-slate-600 mt-1">
+              Konfigurasi data satuan pendidikan, kepala sekolah, pengawas pembina, dan logo resmi untuk kop surat dokumen cetak A4.
+            </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={handleReset} className="text-xs gap-1.5">
+            <Button variant="outline" size="sm" onClick={handleReset} className="text-xs gap-1.5 text-slate-700 border-slate-300 hover:bg-slate-50">
               <RotateCcw className="w-3.5 h-3.5" />
               Reset
             </Button>
-            <Button variant="outline" size="sm" onClick={handlePrintPreview} className="text-xs gap-1.5">
+            <Button variant="outline" size="sm" onClick={handlePrintPreview} className="text-xs gap-1.5 text-slate-700 border-slate-300 hover:bg-slate-50">
               <Printer className="w-3.5 h-3.5" />
               Cetak A4
             </Button>
-            <Button variant="default" size="sm" onClick={handleSave} className="text-xs gap-1.5 bg-blue-800 hover:bg-blue-900">
+            <Button variant="default" size="sm" onClick={handleSave} className="text-xs gap-1.5 bg-blue-700 hover:bg-blue-800 text-white font-semibold">
               <Save className="w-3.5 h-3.5" />
               Simpan Profil
             </Button>
           </div>
         </div>
-      </header>
-
-      {/* Main Form & Preview Workspace */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Status Alert */}
         {isSaved && (
           <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center justify-between text-xs no-print">
@@ -477,7 +479,7 @@ export default function ProfilSekolahPage() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardShell>
   );
 }

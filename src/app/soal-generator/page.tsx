@@ -28,6 +28,7 @@ import { KisiKisiTable } from "@/components/evaluasi/KisiKisiTable";
 import { QuestionItemCard } from "@/components/evaluasi/QuestionItemCard";
 import { ScoringRubricView } from "@/components/evaluasi/ScoringRubricView";
 import { exportQuestionsToDocx } from "@/lib/export/docx-exporter";
+import { DashboardShell } from "@/components/layout/DashboardShell";
 import { QuestionPackage, QuestionItem, SchoolProfile, TeacherProfile } from "@/types";
 
 export default function SoalGeneratorPage() {
@@ -195,41 +196,37 @@ export default function SoalGeneratorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* Top Navbar */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs no-print">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs text-slate-600">
-                <ArrowLeft className="w-4 h-4" />
-                <span>Beranda</span>
-              </Button>
-            </Link>
-            <div className="h-4 w-px bg-slate-300" />
-            <h1 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <FileCheck2 className="w-4 h-4 text-blue-700" />
-              Generator Soal & Evaluasi Kurikulum Merdeka
+    <DashboardShell activeItem="soal-generator">
+      <div className="space-y-6 max-w-6xl mx-auto pb-12">
+        {/* Breadcrumb & Header Title */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 no-print">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
+              <Link href="/dashboard" className="hover:text-blue-700 transition-colors">
+                Dashboard
+              </Link>
+              <span>/</span>
+              <span className="text-slate-700 font-medium">Perangkat Ajar</span>
+              <span>/</span>
+              <span className="text-blue-700 font-bold">Soal Generator</span>
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
+              <FileCheck2 className="w-6 h-6 text-blue-700" />
+              <span>Generator Soal & Evaluasi Kurikulum Merdeka</span>
             </h1>
+            <p className="text-xs text-slate-600 mt-1">
+              Penyusunan paket soal terstruktur AKM, Taksonomi Bloom (C1-C6), kisi-kisi, dan pedoman penskoran otomatis.
+            </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
-              <span className="font-semibold text-slate-800">{teacher.teacher_name}</span>
-              <span className="text-slate-400">|</span>
-              <span className="text-slate-600">{school.school_name}</span>
-            </div>
+          <div className="flex items-center gap-2">
             <Link href="/profil-sekolah">
-              <Button variant="outline" size="sm" className="text-xs">
-                Ubah Profil
+              <Button variant="outline" size="sm" className="text-xs font-semibold text-slate-700 border-slate-300 hover:bg-slate-50">
+                Profil: {teacher.teacher_name}
               </Button>
             </Link>
           </div>
         </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {formError && (
           <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-rose-900 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
@@ -978,7 +975,7 @@ export default function SoalGeneratorPage() {
             )}
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </DashboardShell>
   );
 }
