@@ -75,6 +75,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
 /* Custom Print Styles for Official Indonesian Documents (A4 Standard) */
 @media print {
   body {

@@ -25,6 +25,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { PlusSeparator } from "@/components/ui/plus-separator";
+import { InteractiveTicker } from "@/components/landing/InteractiveTicker";
+import { BauhausCanvasBanner } from "@/components/landing/BauhausCanvasBanner";
 
 export default function LandingPage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -55,6 +59,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
+      {/* 0. Custom Smooth Cursor Interaktif */}
+      <SmoothCursor />
+
       {/* 1. Header / Navbar */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -77,14 +84,17 @@ export default function LandingPage() {
             <a href="#fitur" className="hover:text-blue-700 transition-colors">
               Fitur Unggulan
             </a>
+            <a href="#ticker-interaktif" className="hover:text-blue-700 transition-colors">
+              Eksplorasi Modul
+            </a>
             <a href="#cara-kerja" className="hover:text-blue-700 transition-colors">
               Cara Kerja
             </a>
             <a href="#efisiensi" className="hover:text-blue-700 transition-colors">
               Efisiensi Guru
             </a>
-            <a href="#regulasi" className="hover:text-blue-700 transition-colors">
-              Standar BSKAP 2024
+            <a href="#kanvas-seni" className="hover:text-blue-700 transition-colors">
+              Standar Regulasi
             </a>
             <a href="#faq" className="hover:text-blue-700 transition-colors">
               FAQ
@@ -173,7 +183,7 @@ export default function LandingPage() {
                     <div className="w-3 h-3 rounded-full bg-emerald-400" />
                     <span className="text-[11px] font-bold text-slate-400 ml-2">Generator Soal & Kisi-Kisi</span>
                   </div>
-                  <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-800 border-blue-200">
+                  <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-800 border-blue-200 font-bold">
                     Otomatis 100%
                   </Badge>
                 </div>
@@ -241,6 +251,13 @@ export default function LandingPage() {
               </span>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 3.5. SECTION BARU: Interactive Ticker (Running Text dengan Blind Gradient & Dynamic Detail Switcher) */}
+      <section id="ticker-interaktif" className="py-16 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <InteractiveTicker />
         </div>
       </section>
 
@@ -512,8 +529,26 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 7.5. SECTION BARU: Spanduk Kanvas Geometris Presisi (Bauhaus Dynamic Canvas Banner) */}
+      <section id="kanvas-seni" className="py-16 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <span className="text-xs font-mono text-blue-700 font-bold uppercase tracking-wider">
+              [arsitektur_dokumen_resmi]
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Standar Regulasi BSKAP Terpetakan Rapi
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Visualisasi kanvas interaktif mencerminkan modularitas dan keselarasan setiap butir instrumen administrasi pendidikan.
+            </p>
+          </div>
+          <BauhausCanvasBanner />
+        </div>
+      </section>
+
       {/* 8. Section FAQ Accordion */}
-      <section id="faq" className="py-20 bg-slate-50 border-t border-slate-200">
+      <section id="faq" className="py-20 bg-white border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="text-center space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
