@@ -188,25 +188,27 @@ export default function HomePage() {
             </Link>
 
             {/* 3. Perangkat Tahunan */}
-            <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader className="pb-3">
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center mb-2 group-hover:bg-indigo-700 group-hover:text-white transition-colors">
-                  <CalendarDays className="w-5 h-5" />
-                </div>
-                <CardTitle className="text-base group-hover:text-indigo-700 transition-colors">
-                  ATP, Prota, & Promes
-                </CardTitle>
-                <CardDescription className="text-xs leading-normal">
-                  Pemisahan CP ke TP dan penyusunan tabel jam efektif sesuai kalender pendidikan sekolah.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center text-xs font-semibold text-indigo-700 gap-1 mt-2">
-                  <span>Buka Generator</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
+            <Link href="/perangkat-tahunan" className="block">
+              <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group h-full">
+                <CardHeader className="pb-3">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center mb-2 group-hover:bg-indigo-700 group-hover:text-white transition-colors">
+                    <CalendarDays className="w-5 h-5" />
+                  </div>
+                  <CardTitle className="text-base group-hover:text-indigo-700 transition-colors">
+                    ATP, Prota, & Promes
+                  </CardTitle>
+                  <CardDescription className="text-xs leading-normal">
+                    Pemisahan CP ke TP dan penyusunan tabel jam efektif sesuai kalender pendidikan sekolah.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex items-center text-xs font-semibold text-indigo-700 gap-1 mt-2">
+                    <span>Buka Generator</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
 
             {/* 4. Slide Presentasi */}
             <Card className="hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">

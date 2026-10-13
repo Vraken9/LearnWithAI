@@ -182,3 +182,103 @@ export interface TeachingModule {
   created_at: string;
   updated_at: string;
 }
+
+export interface NonEffectiveActivity {
+  activity: string;
+  count_weeks: number;
+}
+
+export interface EffectiveWeekDetail {
+  total_calendar_weeks: number;
+  ineffective_weeks: number;
+  effective_weeks: number;
+  effective_hours: number;
+  non_effective_details: NonEffectiveActivity[];
+}
+
+export interface AnnualCalendarData {
+  academic_year: string;
+  jp_per_week: number;
+  semester_1: EffectiveWeekDetail;
+  semester_2: EffectiveWeekDetail;
+  total_annual_jp: number;
+}
+
+export interface LearningObjectiveTP {
+  id: string;
+  code: string;
+  element: string;
+  statement: string;
+  competency: string;
+  material_scope: string;
+  allocated_jp: number;
+  semester: 1 | 2;
+  evaluation_technique: string;
+  pancasila_dimensions: string[];
+}
+
+export interface AlurTujuanPembelajaran {
+  id: string;
+  subject: string;
+  phase: Phase;
+  grade: string;
+  academic_year: string;
+  rationale: string;
+  elements: Array<{
+    name: string;
+    cp_description: string;
+  }>;
+  tp_items: LearningObjectiveTP[];
+  total_jp: number;
+}
+
+export interface ProtaItem {
+  no: number;
+  tp_code: string;
+  material: string;
+  allocated_jp: number;
+}
+
+export interface ProgramTahunan {
+  id: string;
+  subject: string;
+  grade: string;
+  academic_year: string;
+  semester_1_items: ProtaItem[];
+  semester_1_total_jp: number;
+  semester_2_items: ProtaItem[];
+  semester_2_total_jp: number;
+  total_yearly_jp: number;
+}
+
+export interface PromesMatrixRow {
+  no: number;
+  tp_code: string;
+  material: string;
+  allocated_jp: number;
+  weekly_allocations: Record<string, number | string>;
+}
+
+export interface ProgramSemester {
+  id: string;
+  semester: 1 | 2;
+  academic_year: string;
+  subject: string;
+  grade: string;
+  months: string[];
+  weeks_distribution: number[];
+  matrix_rows: PromesMatrixRow[];
+  agenda_legends: Array<{
+    code: string;
+    label: string;
+    color: string;
+  }>;
+}
+
+export interface PerangkatTahunanBundle {
+  calendar: AnnualCalendarData;
+  atp: AlurTujuanPembelajaran;
+  prota: ProgramTahunan;
+  promes_1: ProgramSemester;
+  promes_2: ProgramSemester;
+}
