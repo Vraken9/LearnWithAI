@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ModulAjarView } from "@/components/modul-ajar/ModulAjarView";
+import { exportModulAjarToDocx } from "@/lib/export/docx-exporter";
 import { getOfficialCP } from "@/lib/data/capaian-pembelajaran";
 import { TeachingModule, SchoolProfile, TeacherProfile } from "@/types";
 
@@ -559,9 +560,14 @@ export default function ModulAjarPage() {
                       : "Beralih ke Mode Ringkas"}
                   </span>
                 </Button>
-                <Button variant="outline" size="sm" className="text-xs gap-1.5 text-blue-700">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportModulAjarToDocx(generatedModule)}
+                  className="text-xs gap-1.5 text-blue-700"
+                >
                   <Download className="w-3.5 h-3.5" />
-                  <span>DOCX Modul</span>
+                  <span>DOCX Modul Ajar</span>
                 </Button>
                 <Button variant="outline" size="sm" className="text-xs gap-1.5 text-red-600">
                   <Download className="w-3.5 h-3.5" />

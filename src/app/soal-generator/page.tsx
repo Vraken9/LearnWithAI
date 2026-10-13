@@ -27,6 +27,7 @@ import { MathRenderer } from "@/components/ui/math-renderer";
 import { KisiKisiTable } from "@/components/evaluasi/KisiKisiTable";
 import { QuestionItemCard } from "@/components/evaluasi/QuestionItemCard";
 import { ScoringRubricView } from "@/components/evaluasi/ScoringRubricView";
+import { exportQuestionsToDocx } from "@/lib/export/docx-exporter";
 import { QuestionPackage, QuestionItem, SchoolProfile, TeacherProfile } from "@/types";
 
 export default function SoalGeneratorPage() {
@@ -701,13 +702,23 @@ export default function SoalGeneratorPage() {
                     {showAnswers ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     <span>{showAnswers ? "Sembunyikan Kunci" : "Tampilkan Kunci"}</span>
                   </Button>
-                  <Button variant="outline" size="sm" className="text-xs gap-1.5 text-blue-700">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportQuestionsToDocx(generatedPackage, false)}
+                    className="text-xs gap-1.5 text-blue-700"
+                  >
                     <Download className="w-3.5 h-3.5" />
-                    <span>DOCX Soal</span>
+                    <span>DOCX Soal Siswa</span>
                   </Button>
-                  <Button variant="outline" size="sm" className="text-xs gap-1.5 text-red-600">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportQuestionsToDocx(generatedPackage, true)}
+                    className="text-xs gap-1.5 text-emerald-700"
+                  >
                     <Download className="w-3.5 h-3.5" />
-                    <span>PDF Soal</span>
+                    <span>DOCX Soal + Kunci</span>
                   </Button>
                   <Button
                     variant="outline"
